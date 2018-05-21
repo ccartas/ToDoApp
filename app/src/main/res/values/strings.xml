@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">ToDoApp</string>
-    <string name="loginText">Login</string>
+    <string name="login_text">Login</string>
+    <string name="user_name">User Name</string>
+    <string name="image_description">profile picture</string>
+    <string name="todo_text">Things to do today: 2</string>
+    <string name="done_text">Things already done: 20</string>
+    <string name="add_todo_button_text">Add Todo</string>
+    <string name="view_profile_button_text">Profile</string>
 </resources>
