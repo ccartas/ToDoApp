@@ -1,0 +1,9 @@
+package cegeka.scoaladevalori.ro.todoapp;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
+    public String name;
+    public String username;
+    public String password;
+}
