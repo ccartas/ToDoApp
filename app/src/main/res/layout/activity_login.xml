@@ -34,4 +34,13 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"/>
 
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create account"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:onClick="OpenRegisterActivity"/>
+
 </LinearLayout>

@@ -13,6 +13,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText mUserEt;
     EditText mPassEt;
     Button mLoginBtn;
+    User user = null;
 
     private static final String USERNAME = "vianu_user";
     private static final String PASSWORD = "vianu_pass";
@@ -30,15 +31,18 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(mUserEt.getText().toString().equals(USERNAME) &&
-                        mPassEt.getText().toString().equals(PASSWORD)){
+                if((mUserEt.getText().toString().equals(USERNAME) &&
+                        mPassEt.getText().toString().equals(PASSWORD)) ||
+                (user != null && mUserEt.getText().toString().equals(user.username) &&
+                        mPassEt.getText().toString().equals(user.password))){
 
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     Bundle b = new Bundle();
-                    b.putString("USER", mUserEt.getText().toString());
+                    b.putSerializable("user", user);
                     intent.putExtras(b);
                     startActivity(intent);
-                } else {
+                }
+                else {
                     Toast.makeText(LoginActivity.this,
                             "Invalid Credentials",
                             Toast.LENGTH_LONG).show();
@@ -46,7 +50,18 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            user = (User)data.getSerializableExtra("user");
+        }
+    }
 
+    public void OpenRegisterActivity(View view) {
+        Intent intent = new Intent(LoginActivity.this,
+                RegisterActivity.class);
+        startActivityForResult(intent, 1);
     }
 }

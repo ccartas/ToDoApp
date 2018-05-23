@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
+    User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,12 +15,23 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         Bundle b = getIntent().getExtras();
-        Toast.makeText(MenuActivity.this,
-                b.getString("USER"), Toast.LENGTH_LONG).show();
+        user = (User)b.getSerializable("user");
     }
 
     public void OpenNewToDoActivity(View view) {
         Intent intent = new Intent(MenuActivity.this, AddToDoActivity.class);
+        startActivity(intent);
+    }
+
+    public void OpenTodoListActivity(View view) {
+        Intent intent =
+                new Intent(MenuActivity.this, ToDoListActivity.class);
+        startActivity(intent);
+    }
+
+    public void OpenProfileActivity(View view) {
+        Intent intent = new Intent(MenuActivity.this, ProfileActivity.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 }
