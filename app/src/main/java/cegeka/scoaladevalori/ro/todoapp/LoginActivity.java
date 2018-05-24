@@ -37,9 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                         mPassEt.getText().toString().equals(user.password))){
 
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable("user", user);
-                    intent.putExtras(b);
+                    intent.putExtra("user", user);
                     startActivity(intent);
                 }
                 else {

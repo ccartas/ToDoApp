@@ -9,6 +9,10 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class AddToDoActivity extends AppCompatActivity {
+    EditText editTextTitle = null;
+    EditText editTextDescription = null;
+    SeekBar seekBar = null;
+    EditText editTextDueDate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +33,9 @@ public class AddToDoActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private boolean Validate() {
+        return false;
     }
 }

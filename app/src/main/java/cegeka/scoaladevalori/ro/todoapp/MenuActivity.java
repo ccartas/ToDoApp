@@ -14,8 +14,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        Bundle b = getIntent().getExtras();
-        user = (User)b.getSerializable("user");
+        user = (User)getIntent().getSerializableExtra("user");
     }
 
     public void OpenNewToDoActivity(View view) {
