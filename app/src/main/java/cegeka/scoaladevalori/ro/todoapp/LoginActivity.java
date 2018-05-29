@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText mPassEt;
     Button mLoginBtn;
     User user = null;
+    public static List<ToDoItem> mList;
 
     private static final String USERNAME = "vianu_user";
     private static final String PASSWORD = "vianu_pass";
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         mUserEt = (EditText) findViewById(R.id.userEt);
         mPassEt = (EditText) findViewById(R.id.passEt);
         mLoginBtn = (Button) findViewById(R.id.loginBtn);
-
+        mList = new ArrayList<>();
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override

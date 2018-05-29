@@ -21,6 +21,7 @@ public class AddToDoActivity extends AppCompatActivity {
     EditText editTextDescription = null;
     SeekBar seekBar = null;
     EditText editTextDueDate = null;
+    Button mAddToDoBtn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,13 @@ public class AddToDoActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.editTextDescription);
         seekBar = findViewById(R.id.seekBar);
         editTextDueDate = findViewById(R.id.editTextDueDate);
-
+        mAddToDoBtn = findViewById(R.id.button_add);
+        mAddToDoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToDoItem item = new ToDoItem();
+            }
+        });
         Button buttonAddToCalendar = findViewById(R.id.button_calendar);
         buttonAddToCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
