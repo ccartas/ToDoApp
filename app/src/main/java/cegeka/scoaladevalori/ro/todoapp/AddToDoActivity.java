@@ -1,5 +1,6 @@
 package cegeka.scoaladevalori.ro.todoapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,25 @@ public class AddToDoActivity extends AppCompatActivity {
         mAddToDoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToDoItem item = new ToDoItem();
+                if(Validate()) {
+                    ToDoItem item = new ToDoItem();
+                    item.title = editTextTitle.getText().toString();
+                    item.description = editTextDescription.getText().toString();
+                    item.priority = seekBar.getProgress();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        item.dueDate = sdf.parse(editTextDueDate.getText().toString());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    LoginActivity.mList.add(item);
+                    Intent intent = new Intent(AddToDoActivity.this, MenuActivity.class);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                } else {
+                    Toast.makeText(AddToDoActivity.this, "Campurile nu sunt completate!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         Button buttonAddToCalendar = findViewById(R.id.button_calendar);
