@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,8 +48,16 @@ public class AddToDoActivity extends AppCompatActivity {
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-
-                    LoginActivity.mList.add(item);
+                    ArrayList<ToDoItem> items = null;
+                    if(LoginActivity.user != null) {
+                        items = LoginActivity.mHashMap.get(LoginActivity.user.username);
+                    }
+                    else {
+                        items = LoginActivity.mHashMap.get("vianu_user");
+                    }
+                    if(items != null) {
+                        items.add(item);
+                    }
                     Intent intent = new Intent(AddToDoActivity.this, MenuActivity.class);
                     setResult(Activity.RESULT_OK, intent);
                     finish();

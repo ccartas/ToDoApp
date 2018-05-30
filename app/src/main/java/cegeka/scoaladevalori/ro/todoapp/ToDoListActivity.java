@@ -18,8 +18,17 @@ public class ToDoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_to_do_list);
         mListView = findViewById(R.id.listView);
         adapterList = new ArrayList<>();
-        for(ToDoItem item : LoginActivity.mList){
-            adapterList.add(item.title + " " + item.description);
+        ArrayList<ToDoItem> lista = null;
+        if(LoginActivity.user != null) {
+            lista = LoginActivity.mHashMap.get(LoginActivity.user.username);
+        }
+        else {
+            lista = LoginActivity.mHashMap.get("vianu_user");
+        }
+        if(lista != null) {
+            for (ToDoItem item : lista) {
+                adapterList.add(item.title + " " + item.description);
+            }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(ToDoListActivity.this,
                 R.layout.single_item,

@@ -8,16 +8,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText mUserEt;
     EditText mPassEt;
     Button mLoginBtn;
-    User user = null;
-    public static List<ToDoItem> mList;
+    public static User user = null;
+    public static HashMap<String, ArrayList<ToDoItem>> mHashMap = new HashMap<>();
 
     private static final String USERNAME = "vianu_user";
     private static final String PASSWORD = "vianu_pass";
@@ -26,11 +32,22 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        user = null;
+        try (FileInputStream fisier = openFileInput("data.bin")) {
+            ObjectInputStream ois = new ObjectInputStream(fisier);
+            mHashMap = (HashMap<String, ArrayList<ToDoItem>>) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         mUserEt = (EditText) findViewById(R.id.userEt);
         mPassEt = (EditText) findViewById(R.id.passEt);
         mLoginBtn = (Button) findViewById(R.id.loginBtn);
-        mList = new ArrayList<>();
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -39,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                         mPassEt.getText().toString().equals(PASSWORD)) ||
                 (user != null && mUserEt.getText().toString().equals(user.username) &&
                         mPassEt.getText().toString().equals(user.password))){
+                    if(! mHashMap.containsKey(mUserEt.getText().toString())) {
+                        mHashMap.put(mUserEt.getText().toString(), new ArrayList<ToDoItem>());
+                    }
 
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     intent.putExtra("user", user);
@@ -52,6 +72,20 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try (FileOutputStream fisier = openFileOutput("data.bin", MODE_PRIVATE)) {
+            ObjectOutputStream oos = new ObjectOutputStream(fisier);
+            oos.writeObject(mHashMap);
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

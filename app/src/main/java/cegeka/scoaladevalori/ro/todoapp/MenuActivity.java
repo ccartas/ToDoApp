@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
         if(requestCode == 1){
             switch (resultCode){
                 case Activity.RESULT_OK:
-                    Toast.makeText(MenuActivity.this, LoginActivity.mList.size() + "", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MenuActivity.this, LoginActivity.mHashMap.size() + "", Toast.LENGTH_LONG).show();
                     break;
                     default:
                         Toast.makeText(MenuActivity.this, "Nu s-a intamplat nimic", Toast.LENGTH_LONG).show();
