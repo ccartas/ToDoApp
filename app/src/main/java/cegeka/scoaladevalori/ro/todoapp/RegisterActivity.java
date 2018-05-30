@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class RegisterActivity extends AppCompatActivity {
     EditText nameText = null;
     EditText usernameText = null;
@@ -50,6 +55,18 @@ public class RegisterActivity extends AppCompatActivity {
         user.name = nameText.getText().toString();
         user.username = usernameText.getText().toString();
         user.password = passwordText.getText().toString();
+
+        try {
+            FileOutputStream os = openFileOutput("users.bin", MODE_PRIVATE | MODE_APPEND);
+            ObjectOutputStream stream = new ObjectOutputStream(os);
+            stream.reset();
+            stream.writeObject(user);
+            stream.close();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Intent intent = new Intent();
         intent.putExtra("user", user);
         setResult(RESULT_OK, intent);

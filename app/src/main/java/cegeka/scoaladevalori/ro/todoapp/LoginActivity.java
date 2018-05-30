@@ -52,6 +52,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                User x = CheckUserInFile();
+                if(x != null) {
+                    user = x;
+                }
                 if((mUserEt.getText().toString().equals(USERNAME) &&
                         mPassEt.getText().toString().equals(PASSWORD)) ||
                 (user != null && mUserEt.getText().toString().equals(user.username) &&
@@ -72,6 +76,27 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private User CheckUserInFile() {
+        try {
+            FileInputStream inputStream = openFileInput("users.bin");
+            ObjectInputStream stream = new ObjectInputStream(inputStream);
+            User x = null;
+            while((x = (User)stream.readObject()) != null) {
+                if(mUserEt.getText().toString().equals(x.username) &&
+                        mPassEt.getText().toString().equals(x.password)) {
+                    return x;
+                }
+            }
+            stream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
