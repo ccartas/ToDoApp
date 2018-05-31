@@ -7,10 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText nameText = null;
@@ -57,13 +61,24 @@ public class RegisterActivity extends AppCompatActivity {
         user.password = passwordText.getText().toString();
 
         try {
-            FileOutputStream os = openFileOutput("users.bin", MODE_PRIVATE | MODE_APPEND);
+            ArrayList<User> userList;
+            if(new File(getFilesDir(), "users.bin").exists()) {
+                FileInputStream is = openFileInput("users.bin");
+                ObjectInputStream inputStream = new ObjectInputStream(is);
+                userList = (ArrayList<User>) inputStream.readObject();
+            }
+            else {
+                userList = new ArrayList<>();
+            }
+            FileOutputStream os = openFileOutput("users.bin", MODE_PRIVATE);
             ObjectOutputStream stream = new ObjectOutputStream(os);
-            stream.reset();
-            stream.writeObject(user);
+            userList.add(user);
+            stream.writeObject(userList);
             stream.close();
             os.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 

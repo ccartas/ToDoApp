@@ -56,14 +56,17 @@ public class LoginActivity extends AppCompatActivity {
                 if(x != null) {
                     user = x;
                 }
-                if((mUserEt.getText().toString().equals(USERNAME) &&
-                        mPassEt.getText().toString().equals(PASSWORD)) ||
+                boolean adminAccount = (mUserEt.getText().toString().equals(USERNAME) &&
+                        mPassEt.getText().toString().equals(PASSWORD));
+                if((adminAccount) ||
                 (user != null && mUserEt.getText().toString().equals(user.username) &&
                         mPassEt.getText().toString().equals(user.password))){
                     if(! mHashMap.containsKey(mUserEt.getText().toString())) {
                         mHashMap.put(mUserEt.getText().toString(), new ArrayList<ToDoItem>());
                     }
-
+                    if(adminAccount) {
+                        user = null;
+                    }
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     intent.putExtra("user", user);
                     startActivity(intent);
@@ -82,10 +85,10 @@ public class LoginActivity extends AppCompatActivity {
         try {
             FileInputStream inputStream = openFileInput("users.bin");
             ObjectInputStream stream = new ObjectInputStream(inputStream);
-            User x = null;
-            while((x = (User)stream.readObject()) != null) {
-                if(mUserEt.getText().toString().equals(x.username) &&
-                        mPassEt.getText().toString().equals(x.password)) {
+
+            ArrayList<User> users = (ArrayList<User>) stream.readObject();
+            for(User x : users) {
+                if(x.username.equals(mUserEt.getText().toString()) && x.password.equals(mPassEt.getText().toString())) {
                     return x;
                 }
             }
@@ -113,6 +116,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //teoretic nu mai e nevoie sa trimitem userul prin intent pentru ca oricum
+    //cautam in fiser daca exista userul/parola respectiva
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1 && resultCode == RESULT_OK) {

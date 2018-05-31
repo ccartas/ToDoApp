@@ -49,23 +49,23 @@ public class AddToDoActivity extends AppCompatActivity {
                         ex.printStackTrace();
                     }
                     ArrayList<ToDoItem> items = null;
+                    //daca userul este setat il folosim
                     if(LoginActivity.user != null) {
                         items = LoginActivity.mHashMap.get(LoginActivity.user.username);
                     }
+                    //daca nu inseamna ca ne-am conectat cu contul de admin
                     else {
                         items = LoginActivity.mHashMap.get("vianu_user");
                     }
                     if(items != null) {
+                        //deoarece items e referinta(pointer) adaugare unui nou element aici duce si la modificarea hashMap-ului
                         items.add(item);
                     }
-                    Intent intent = new Intent(AddToDoActivity.this, MenuActivity.class);
-                    setResult(Activity.RESULT_OK, intent);
                     finish();
-                } else {
-                    Toast.makeText(AddToDoActivity.this, "Campurile nu sunt completate!", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
         Button buttonAddToCalendar = findViewById(R.id.button_calendar);
         buttonAddToCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
